@@ -1,5 +1,7 @@
 package com.mkrblogs.ws.api.ResourceServer.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,9 +19,12 @@ import com.mkrblogs.ws.api.ResourceServer.response.UserRest;
 @RequestMapping("/users")
 public class UsersController {
 	
+	@Autowired
+	Environment env;
+	
 	@GetMapping("/status/check")
 	public String status() {
-		return "Working...";
+		return "Working on port : " + env.getProperty("local.server.port");
 	}
 	
 	@PreAuthorize("hasAuthority('ROLE_developer') and #id == #jwt.subject")
